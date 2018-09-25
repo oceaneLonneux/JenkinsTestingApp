@@ -1,12 +1,12 @@
 # Install required plugins
-required_plugins = ["vagrant-hostsupdater"]
-required_plugins = %w(vagrant-omnibus vagrant-aws vagrant-berkshelf vagrant-vbguest vagrant-triggers vagrant-remove-old-box-versions vagrant-hostmanager)
+required_plugins = ["vagrant-hostsupdater", "vagrant-berkshelf"]
 required_plugins.each do |plugin|
-  exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
+  unless Vagrant.has_plugin?(plugin)
+    puts "Installing vagrant plugin #{plugin}"
+    Vagrant::Plugin::Manager.instance.install_plugin plugin
+    puts "installed vagrant plugin #{plugin}"
+  end
 end
-# required_plugins.each do |plugin|
-#     exec "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
-# end
 
 def set_env vars
   command = <<~HEREDOC
@@ -33,6 +33,9 @@ Vagrant.configure("2") do |config|
     app.vm.synced_folder "app", "/home/ubuntu/app"
     app.vm.synced_folder "environment/app", "/home/ubuntu/environment"
     app.vm.provision "shell", path: "environment/app/provision.sh", privileged: false
+    app.vm.provision "chef_solo" do |chef|
+      chef.add_recipe "node::default"
+    end
     app.vm.provision "shell", inline: set_env({ DB_HOST: "mongodb://192.168.10.150:27017/posts" }), privileged: false
   end
 
@@ -42,5 +45,8 @@ Vagrant.configure("2") do |config|
     db.hostsupdater.aliases = ["database.local"]
     db.vm.synced_folder "environment/db", "/home/ubuntu/environment"
     db.vm.provision "shell", path: "environment/db/provision.sh", privileged: false
+    db.vm.provision "chef_solo" do |chef|
+      chef.add_recipe "mongo::default"
+    end
   end
 end
