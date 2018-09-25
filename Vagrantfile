@@ -1,8 +1,12 @@
 # Install required plugins
 required_plugins = ["vagrant-hostsupdater"]
+required_plugins = %w(vagrant-omnibus vagrant-aws vagrant-berkshelf vagrant-vbguest vagrant-triggers vagrant-remove-old-box-versions vagrant-hostmanager)
 required_plugins.each do |plugin|
-    exec "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+  exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
 end
+# required_plugins.each do |plugin|
+#     exec "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+# end
 
 def set_env vars
   command = <<~HEREDOC

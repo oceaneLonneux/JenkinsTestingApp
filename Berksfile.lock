@@ -1,0 +1,26 @@
+DEPENDENCIES
+  mongo
+    git: https://github.com/oceaneLonneux/mongoCookbook.git
+    revision: 50850d15e3f9ee88d9936580b9719cd96ba42fe7
+  node
+    git: https://github.com/oceaneLonneux/nodeCookbook
+    revision: 591a2888abba079248e744dcceba3627ed05a510
+
+GRAPH
+  ark (4.0.0)
+    build-essential (>= 0.0.0)
+    seven_zip (>= 0.0.0)
+  build-essential (8.2.1)
+    mingw (>= 1.1)
+    seven_zip (>= 0.0.0)
+  mingw (2.1.0)
+    seven_zip (>= 0.0.0)
+  mongo (0.1.0)
+  node (0.1.0)
+    nodejs (~> 5.0.0)
+  nodejs (5.0.0)
+    ark (>= 2.0.2)
+    build-essential (>= 0.0.0)
+  seven_zip (3.0.0)
+    windows (>= 0.0.0)
+  windows (5.1.1)
