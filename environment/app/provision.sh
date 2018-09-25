@@ -18,7 +18,7 @@ curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 sudo apt-get install nodejs -y
 
 # install pm2
-sudo npm install pm2 -g
+sudo npm install pm2 -g -y
 
 # set up nginx reverse proxy
 sudo ln -s /home/ubuntu/environment/nodeapp.conf /etc/nginx/conf.d/nodeapp.conf
