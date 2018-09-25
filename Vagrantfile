@@ -1,4 +1,5 @@
 # Install required plugins
+# include plugin for "vagrant-berkshelf"
 required_plugins = ["vagrant-hostsupdater"]
 required_plugins.each do |plugin|
     exec "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
